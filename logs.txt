@@ -1,0 +1,12 @@
+Request Payload-->   {'name': 'John Doe', 'email': 'john.doe@example.com', 'phone_number': '+1234567890', 'address': '123 Main St, Anytown, Anystate, 12345, USA'}
+
+
+new_user Object-->   <src.services.User object at 0x000001F7480DCF20>
+
+
+select data value-->  ('John Doe', 'john.doe@example.com', '+1234567890', '123 Main St, Anytown, Anystate, 12345, USA', 1)
+
+
+json_response-->    {"name": "John Doe", "email": "john.doe@example.com", "phone_number": "+1234567890", "address": "123 Main St, Anytown, Anystate, 12345, USA", "id": 1}
+
+
