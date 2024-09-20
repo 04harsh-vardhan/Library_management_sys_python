@@ -1,8 +1,8 @@
 from http.server import SimpleHTTPRequestHandler
 import json
-from .services import createUser,loginUser
+from .services import createUser,loginUser,addMembership
 import os
-from utils import createFile,sendResponse
+from utils import createFile,sendResponse,extractJwtPayload
 
 if not os.path.isdir("Logs"):
     os.mkdir("Logs")
@@ -32,6 +32,15 @@ class MyHandler(SimpleHTTPRequestHandler):
                 file = createFile("login.txt")
                 file.write(f"requested data -->  {json_data}\n\n\n")
                 response = loginUser(json_data['email'],json_data['password'],file)
+                sendResponse(self,response,file)
+                file.close()
+            if self.path == "/addMember":
+                file = createFile("addMember.txt")
+                file.write(f"requested data -->  {json_data}\n\n\n")
+                jwt_token = self.headers['authorization']
+                file.write(f"jwt_token from payload -->  {jwt_token}\n\n\n")
+                payload = extractJwtPayload(jwt_token)
+                response = addMembership(payload['id'],json_data['membership_type'],file)
                 sendResponse(self,response,file)
                 file.close()
         except json.JSONDecodeError:

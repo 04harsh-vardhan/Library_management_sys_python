@@ -1,5 +1,6 @@
 import os
 import json
+import jwt
 
 def createFile(file_name):
     folder_path = "Logs"
@@ -17,3 +18,6 @@ def sendResponse(obj,response,file):
     obj.send_header('content-type','application/json')
     obj.end_headers()
     obj.wfile.write(json_response.encode('utf-8'))
+    
+def extractJwtPayload(token):
+    return jwt.decode(token,"help",algorithms=['HS256', ])
