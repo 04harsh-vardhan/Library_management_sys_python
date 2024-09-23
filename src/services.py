@@ -1,4 +1,4 @@
-from queries import CREATE_USER_TABLE,INSERT_USER,ADD_MEMBER
+from queries import CREATE_USER_TABLE,INSERT_USER,ADD_MEMBER,ADD_BOOKS
 from sqlalchemy import text
 from dbConnection import engine
 import jwt
@@ -74,4 +74,12 @@ def addMembership(user_id,mem_type,file):
         query_response = conn.execute(text(f"Select Member.membership_type,  Member.membership_start_date,Member.membership_expiry_date,USER.name,USER.email from Member INNER JOIN USER ON Member.user_id = USER.user_id where Member.user_id = {user_id}")).all()
         file.write(f"Query Response --> {query_response}\n\n\n")
         return {"membership_type":query_response[0][0], "start_date":query_response[0][1],"expiry_date":query_response[0][2],"name":query_response[0][3],"email":query_response[0][4]}
-        
+
+def addBooks(books):
+    try:
+        with engine.connect() as conn:
+            conn.execute(text(ADD_BOOKS),books)
+            conn.commit()
+            return {"success":"true","msg":"Data got Inserted Successfully"}
+    except :
+        {"success":"false", "msg":"My Sql Exception"}
